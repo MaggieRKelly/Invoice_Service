@@ -12,10 +12,9 @@ namespace Invoice_Service.Models
         public string InvoiceId { get; set; }
         public DateTime UpdatedOn { get; set; } = DateTime.Now;
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public List <string> OrderId { get; set; }
-        public List<string> ProductId { get; set; }
-        public List<string> ProductName { get; set; }
-        public List<double> ProductPrice { get; set; }
+        public List <string> OrderRef { get; set; }
+        public string OrderDate { get; set; }
+        public double OrderTotal { get; set; }
         public string CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
