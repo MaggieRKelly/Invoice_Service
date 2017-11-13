@@ -44,10 +44,10 @@ namespace Invoice_Service
                 options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
             });
-
+        // To access Invoice Repository using DI model
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
         }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
