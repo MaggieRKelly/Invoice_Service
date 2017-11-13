@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 using Invoice_Service.Interfaces;
 using Invoice_Service.Models;
-using MongoDB.Bson;
+
 
 namespace Invoice_Service.Data
 {
@@ -24,6 +24,7 @@ namespace Invoice_Service.Data
         {
             try
             {
+                var test = _context.Invoices;
                 return await _context.Invoices.Find(_ => true).ToListAsync();
             }
             catch (Exception ex)
@@ -83,8 +84,8 @@ namespace Invoice_Service.Data
         {
             var filter = Builders<Invoice>.Filter.Eq(s => s.InvoiceId, id);
             var update = Builders<Invoice>.Update
-                            .Set(s => s.InvoicePending, invPend)
-                            .CurrentDate(s => s.UpdatedOn);
+                            .Set(s => s.InvoicePending, invPend);
+                           
 
             try
             {
