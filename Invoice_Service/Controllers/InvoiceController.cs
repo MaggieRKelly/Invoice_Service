@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 using Invoice_Service.Interfaces;
 using Invoice_Service.Models;
-//using Invoice_Service.Infrastructure;
+using Invoice_Service.Infrastructure;
 
 namespace Invoice_Service.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Invoice")]
+    [Route("api/[controller]")]
     public class InvoiceController : Controller
     {
         private readonly IInvoiceRepository _invoiceRepository;
@@ -20,20 +20,27 @@ namespace Invoice_Service.Controllers
         public InvoiceController(IInvoiceRepository invoiceRepository)
         {
             _invoiceRepository = invoiceRepository;
+            
         }
 
+        [NoCache]
         [HttpGet]
         public Task<IEnumerable<Invoice>> Get()
         {
             return GetInvoiceInternal();
         }
-
+        //This change should go to github
         private async Task<IEnumerable<Invoice>> GetInvoiceInternal()
         {
             return await _invoiceRepository.GetAllinvoices();
         }
-
+        /// <summary>
+        /// ///////////////////////////////
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/invoices/5
+        [NoCache]
         [HttpGet("{id}")]
         public Task<Invoice> Get(string id)
         {
@@ -47,9 +54,9 @@ namespace Invoice_Service.Controllers
 
         // POST api/invoices
         [HttpPost]
-        public void Post([FromBody]string orderRef, string orderTotal, string customerId, string customerName, string customerAddress, string InvoiceTotal)
+        public void Post([FromBody]string orderRef, string orderTotal, string customerId, string customerName, string customerAddress, string InvoiceTotal, string InvoiceDate)
         {
-            _invoiceRepository.AddInvoice(new Invoice() { OrderRef = orderRef, OrderTotal = orderTotal, CustomerId = customerId, CustomerName = customerName, CustomerAddress = customerAddress, InvoiceTotal = InvoiceTotal, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now, InvoicePending = true });
+            _invoiceRepository.AddInvoice(new Invoice() { OrderRef = orderRef, OrderTotal = orderTotal, CustomerId = customerId, CustomerName = customerName, CustomerAddress = customerAddress, InvoiceTotal = InvoiceTotal, InvoiceDate = InvoiceDate, InvoicePending = true });
         }
 
         // PUT api/invoices/5

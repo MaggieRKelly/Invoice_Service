@@ -14,6 +14,7 @@ namespace Invoice_Service.Data
 
         public InvoiceContext(IOptions<Settings> settings)
         {
+           
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
                 _database = client.GetDatabase(settings.Value.Database);
@@ -23,7 +24,9 @@ namespace Invoice_Service.Data
         {
             get
             {
-                return _database.GetCollection<Invoice>("Invoice");
+                var bla = _database.GetCollection<Invoice>("invoice_service").Find(_ => true).ToList();
+
+                return _database.GetCollection<Invoice>("invoice_service");
             }
         }
     }
