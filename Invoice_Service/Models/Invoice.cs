@@ -9,9 +9,7 @@ namespace Invoice_Service.Models
 {
     public class Invoice
     {
-        //[BsonId]
         public ObjectId Id { get; set; }
-
         [BsonElement("invoiceId")]
         public string InvoiceId { get; set; }
         [BsonElement("Invoicedate")]
