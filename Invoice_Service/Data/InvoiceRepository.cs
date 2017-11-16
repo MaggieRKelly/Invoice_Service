@@ -10,7 +10,7 @@ using Invoice_Service.Models;
 
 
 namespace Invoice_Service.Data
-{
+{   //CRUD ops. Async access to database
     public class InvoiceRepository : IInvoiceRepository
     {
         private readonly InvoiceContext _context = null;
@@ -24,7 +24,7 @@ namespace Invoice_Service.Data
         {
             try
             {
-                var test = _context.Invoices;
+                var test = _context.Invoices.Find(_ => true);
                 return await _context.Invoices.Find(_ => true).ToListAsync();
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace Invoice_Service.Data
         }
         public async Task<Invoice> GetInvoice(string id)
         {
-            var filter = Builders<Invoice>.Filter.Eq("InvoiceId", id);
+            var filter = Builders<Invoice>.Filter.Eq("Id", id);
 
             try
             {

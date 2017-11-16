@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Invoice_Service.Interfaces;
 using Invoice_Service.Models;
 using Invoice_Service.Infrastructure;
+using MongoDB.Driver;
+using System.Diagnostics;
 
 namespace Invoice_Service.Controllers
 {
@@ -23,46 +25,57 @@ namespace Invoice_Service.Controllers
             
         }
 
-        [NoCache]
+       // [NoCache]
         [HttpGet]
         public Task<IEnumerable<Invoice>> Get()
         {
-            return GetInvoiceInternal();
+            return GetInvoice();
         }
         
-        private async Task<IEnumerable<Invoice>> GetInvoiceInternal()
+        private async Task<IEnumerable<Invoice>> GetInvoice()
         {
+            var tes = _invoiceRepository.GetAllinvoices();
             return await _invoiceRepository.GetAllinvoices();
         }
         
         // GET api/invoices/5
-        [NoCache]
-        [HttpGet("{id}")]
+        //[NoCache]
+        [HttpGet("{Id}")]
         public Task<Invoice> Get(string id)
         {
-            return GetInvoiceByIdInternal(id);
+            return GetInvoiceById(id);
         }
 
-        private async Task<Invoice> GetInvoiceByIdInternal(string id)
+        private async Task<Invoice> GetInvoiceById(string id)
         {
             return await _invoiceRepository.GetInvoice(id) ?? new Invoice();
         }
 
-        // POST api/invoices
+        // POST api/invoice
         [HttpPost]
-        public void Post([FromBody]string orderRef, string orderTotal, string customerId, string customerName, string customerAddress, string InvoiceTotal, string InvoiceDate)
+        public void Post([FromBody]string value)
         {
-            _invoiceRepository.AddInvoice(new Invoice() { OrderRef = orderRef, OrderTotal = orderTotal, CustomerId = customerId, CustomerName = customerName, CustomerAddress = customerAddress, InvoiceTotal = InvoiceTotal, InvoiceDate = InvoiceDate, InvoicePending = true });
-        }
+            _invoiceRepository.AddInvoice(new Invoice()
+            {
+                OrderRef = value,
+                OrderTotal = value,
+                CustomerId = value,
+                CustomerName = value,
+                CustomerAddress = value,
+                InvoiceTotal = value,
+                InvoiceDate = value,
+                InvoicePending = true});
 
-        // PUT api/invoices/5
+            }
+
+        // PUT api/invoice/5
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] bool InvoicePending)
         {
             _invoiceRepository.UpdateInvoice (id, InvoicePending);
         }
 
-        // DELETE api/invoices/
+        // DELETE api/invoice/
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
