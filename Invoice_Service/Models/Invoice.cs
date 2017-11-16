@@ -6,11 +6,11 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
 namespace Invoice_Service.Models
-{
+{   
     public class Invoice
     {
         public ObjectId Id { get; set; }
-        [BsonElement("invoiceId")]
+        [BsonElement("InvoiceId")]
         public string InvoiceId { get; set; }
         [BsonElement("Invoicedate")]
         public string InvoiceDate { get; set; }
@@ -26,7 +26,7 @@ namespace Invoice_Service.Models
         public string CustomerName { get; set; }
         [BsonElement("CustomerAddress")]
         public string CustomerAddress { get; set; }
-        [BsonElement("invoiceTotal")]
+        [BsonElement("InvoiceTotal")]
         public string InvoiceTotal { get; set; }
         [BsonElement("InvoicePending")]
         public Boolean InvoicePending { get; set; }

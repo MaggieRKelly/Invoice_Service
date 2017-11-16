@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace Invoice_Service.Data
 {
+    //uses settings class. Contains functions for accessing Database
     public class InvoiceContext
     {
         private readonly IMongoDatabase _database = null;
@@ -24,8 +25,6 @@ namespace Invoice_Service.Data
         {
             get
             {
-                var bla = _database.GetCollection<Invoice>("invoice_service").Find(_ => true).ToList();
-
                 return _database.GetCollection<Invoice>("invoice_service");
             }
         }

@@ -7,6 +7,7 @@ using MongoDB.Bson;
 
 namespace Invoice_Service.Interfaces
 {
+    //
     public interface IInvoiceRepository
     {
         Task<IEnumerable<Invoice>> GetAllinvoices();

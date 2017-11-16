@@ -24,7 +24,7 @@ namespace Invoice_Service
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // Method called by the runtime adds services to the container.
         //Cross-origin resource sharing (CORS) 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -48,7 +48,7 @@ namespace Invoice_Service
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
         }
         
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Method called by the runtime to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
