@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Invoice_Service.Interfaces;
@@ -22,25 +20,24 @@ namespace Invoice_Service.Controllers
         public InvoiceController(IInvoiceRepository invoiceRepository)
         {
             _invoiceRepository = invoiceRepository;
-            
+
         }
 
-       // [NoCache]
+        //Get api/invoice
         [HttpGet]
         public Task<IEnumerable<Invoice>> Get()
         {
             return GetInvoice();
         }
-        
+
         private async Task<IEnumerable<Invoice>> GetInvoice()
         {
-            var tes = _invoiceRepository.GetAllinvoices();
+            var inv = _invoiceRepository.GetAllinvoices();
             return await _invoiceRepository.GetAllinvoices();
         }
-        
+
         // GET api/invoices/5
-        //[NoCache]
-        [HttpGet("{Id}")]
+        [HttpGet("{id}")]
         public Task<Invoice> Get(string id)
         {
             return GetInvoiceById(id);
@@ -53,33 +50,32 @@ namespace Invoice_Service.Controllers
 
         // POST api/invoice
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task <string> Post([FromBody]Invoice invoice)
         {
-            _invoiceRepository.AddInvoice(new Invoice()
-            {
-                OrderRef = value,
-                OrderTotal = value,
-                CustomerId = value,
-                CustomerName = value,
-                CustomerAddress = value,
-                InvoiceTotal = value,
-                InvoiceDate = value,
-                InvoicePending = true});
+            await _invoiceRepository.AddInvoice(invoice);
+            return "";
 
-            }
+        }
 
-        // PUT api/invoice/5
-        [HttpPut("{id}")]
-        public void Put(string id, [FromBody] bool InvoicePending)
+    // PUT api/invoice/5
+    [HttpPut("{id}")]
+        public async Task<string> Put(string id, [FromBody]Invoice invoice)
         {
-            _invoiceRepository.UpdateInvoice (id, InvoicePending);
+            if (string.IsNullOrEmpty(id))
+                return "Invalid id!";
+
+            return await _invoiceRepository.UpdateInvoice(id, invoice);
         }
 
         // DELETE api/invoice/
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public async Task<string> Delete(string id)
         {
-            _invoiceRepository.RemoveInvoice(id);
+            if (string.IsNullOrEmpty(id))
+                return "Invalid id!";
+
+            await _invoiceRepository.RemoveInvoice(id);
+            return "";
         }
 
 

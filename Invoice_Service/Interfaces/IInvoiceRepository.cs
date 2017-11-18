@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Invoice_Service.Models;
-using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Invoice_Service.Interfaces
 {
-    //
     public interface IInvoiceRepository
     {
         Task<IEnumerable<Invoice>> GetAllinvoices();
         Task<Invoice> GetInvoice(string id);
         // add new invoice document
-        Task AddInvoice(Invoice item);
+        Task AddInvoice(Invoice invoice);
         // remove a single document
-        Task<bool> RemoveInvoice(string id);
+        Task<DeleteResult> RemoveInvoice(string id);
         // update a single document
-        Task<bool> UpdateInvoice(string id, bool invPend );
+        Task<string> UpdateInvoice(string id, Invoice invoice);
 
     }
 }
