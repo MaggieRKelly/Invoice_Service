@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-
+using MongoDB.Bson;
 using Invoice_Service.Interfaces;
 using Invoice_Service.Models;
 
@@ -35,12 +35,12 @@ namespace Invoice_Service.Data
         }
         public async Task<Invoice> GetInvoice(string id)
         {
-            var filter = Builders<Invoice>.Filter.Eq("Id", id);
+            var inv = Builders<Invoice>.Filter.Eq("id", id);
 
             try
             {
                 return await _context.Invoices
-                                .Find(filter)
+                                .Find(inv)
                                 .FirstOrDefaultAsync();
             }
             catch (Exception ex)
@@ -50,11 +50,11 @@ namespace Invoice_Service.Data
             }
         }
 
-        public async Task AddInvoice(Invoice item)
+        public async Task AddInvoice(Invoice invoice)
         {
             try
             {
-                await _context.Invoices.InsertOneAsync(item);
+                await _context.Invoices.InsertOneAsync(invoice);
             }
             catch (Exception ex)
             {
@@ -63,15 +63,13 @@ namespace Invoice_Service.Data
             }
         }
 
-        public async Task<bool> RemoveInvoice(string id)
+        public async Task<DeleteResult> RemoveInvoice(string id)
         {
             try
             {
-                DeleteResult actionResult = await _context.Invoices.DeleteOneAsync(
+                return await _context.Invoices.DeleteOneAsync(
                      Builders<Invoice>.Filter.Eq("InvoiceId", id));
 
-                return actionResult.IsAcknowledged
-                    && actionResult.DeletedCount > 0;
             }
             catch (Exception ex)
             {
@@ -80,45 +78,13 @@ namespace Invoice_Service.Data
             }
         }
 
-        public async Task<bool> UpdateInvoice(string id, bool invPend)
+        public async Task<string> UpdateInvoice(string id, Invoice invoice)
         {
-            var filter = Builders<Invoice>.Filter.Eq(s => s.InvoiceId, id);
-            var update = Builders<Invoice>.Update
-                            .Set(s => s.InvoicePending, invPend);
-                           
-
-            try
-            {
-                UpdateResult actionResult = await _context.Invoices.UpdateOneAsync(filter, update);
-
-                return actionResult.IsAcknowledged
-                    && actionResult.ModifiedCount > 0;
-            }
-            catch (Exception ex)
-            {
-                // log or manage the exception
-                throw ex;
-            }
-        }
-
-        public async Task<bool> UpdateInvoice(string id, Invoice item)
-        {
-            try
-            {
-                ReplaceOneResult actionResult = await _context.Invoices
-                                                .ReplaceOneAsync(i => i.InvoiceId.Equals(id)
-                                                                , item
+               await _context.Invoices.ReplaceOneAsync(i => i.InvoiceId.Equals(id)
+                                                                , invoice
                                                                 , new UpdateOptions { IsUpsert = true });
-                return actionResult.IsAcknowledged
-                    && actionResult.ModifiedCount > 0;
-            }
-            catch (Exception ex)
-            {
-                // log or manage the exception
-                throw ex;
-            }
+            return " ";
         }
-
     }
 }
 

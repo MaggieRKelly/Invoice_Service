@@ -9,26 +9,18 @@ namespace Invoice_Service.Models
 {   
     public class Invoice
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
-        [BsonElement("InvoiceId")]
         public string InvoiceId { get; set; }
-        [BsonElement("Invoicedate")]
-        public string InvoiceDate { get; set; }
-        [BsonElement("OrderRef")]
+        public string Invoicedate { get; set; }
         public string OrderRef { get; set; }
-        [BsonElement("OrderDate")]
         public string OrderDate { get; set; }
-        [BsonElement("OrderTotal")]
         public string OrderTotal { get; set; }
-        [BsonElement("CustomerId")]
         public string CustomerId { get; set; }
-        [BsonElement("CustomerName")]
         public string CustomerName { get; set; }
-        [BsonElement("CustomerAddress")]
         public string CustomerAddress { get; set; }
-        [BsonElement("InvoiceTotal")]
         public string InvoiceTotal { get; set; }
-        [BsonElement("InvoicePending")]
         public Boolean InvoicePending { get; set; }
     }
 }
