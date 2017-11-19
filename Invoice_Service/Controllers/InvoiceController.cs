@@ -37,7 +37,7 @@ namespace Invoice_Service.Controllers
         }
 
         // GET api/invoices/5
-        [HttpGet("{id}")]
+        [HttpGet("{Id}")]
         public Task<Invoice> Get(string id)
         {
             return GetInvoiceById(id);
@@ -58,8 +58,8 @@ namespace Invoice_Service.Controllers
         }
 
     // PUT api/invoice/5
-    [HttpPut("{id}")]
-        public async Task<string> Put(string id, [FromBody]Invoice invoice)
+    [HttpPut("{Id}")]
+        public async Task<string> Put(string id, [FromBody] Invoice invoice)
         {
             if (string.IsNullOrEmpty(id))
                 return "Invalid id!";
@@ -68,7 +68,7 @@ namespace Invoice_Service.Controllers
         }
 
         // DELETE api/invoice/
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
         public async Task<string> Delete(string id)
         {
             if (string.IsNullOrEmpty(id))

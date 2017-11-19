@@ -11,7 +11,7 @@ namespace Invoice_Service.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
         public string InvoiceId { get; set; }
         public string Invoicedate { get; set; }
         public string OrderRef { get; set; }
