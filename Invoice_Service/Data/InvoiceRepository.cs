@@ -35,7 +35,7 @@ namespace Invoice_Service.Data
         }
         public async Task<Invoice> GetInvoice(string id)
         {
-            var inv = Builders<Invoice>.Filter.Eq("id", id);
+            var inv = Builders<Invoice>.Filter.Eq("Id", id);
 
             try
             {
