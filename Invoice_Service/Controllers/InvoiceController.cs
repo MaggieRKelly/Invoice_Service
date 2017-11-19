@@ -50,10 +50,10 @@ namespace Invoice_Service.Controllers
 
         // POST api/invoice
         [HttpPost]
-        public async Task <string> Post([FromBody]Invoice invoice)
+        public async Task <IActionResult> Post([FromBody]Invoice invoice)
         {
             await _invoiceRepository.AddInvoice(invoice);
-            return "";
+            return CreatedAtAction("Get", new { id = invoice.Id }, invoice);
 
         }
 
