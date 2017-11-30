@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Invoice_Service.Data;
+using Invoice_Service.Interfaces;
+using Invoice_Service.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Invoice_Service.Interfaces;
-using Invoice_Service.Data;
-using Invoice_Service.Models;
-
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 
 namespace Invoice_Service
 {
@@ -36,6 +32,29 @@ namespace Invoice_Service
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            })
+    .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+    {
+        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secret goes here")),
+
+            ValidateIssuer = true,
+            ValidIssuer = "Invoice_Service",
+
+            ValidateAudience = true,
+            ValidAudience = "The name of the audience",
+
+            ValidateLifetime = true, //validate the expiration and not before values in the token
+
+            ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+        };
+    });
+
 
             services.AddMvc();
 
@@ -57,6 +76,7 @@ namespace Invoice_Service
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             app.UseMvc();
         }
