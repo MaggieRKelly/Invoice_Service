@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc;
-
-using Invoice_Service.Interfaces;
+﻿using Invoice_Service.Interfaces;
 using Invoice_Service.Models;
-using Invoice_Service.Infrastructure;
-using MongoDB.Driver;
-using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Invoice_Service.Controllers
 {
@@ -22,8 +17,6 @@ namespace Invoice_Service.Controllers
             _invoiceRepository = invoiceRepository;
 
         }
-
-        //Get api/invoice
         [HttpGet]
         public Task<IEnumerable<Invoice>> Get()
         {
@@ -50,15 +43,19 @@ namespace Invoice_Service.Controllers
 
         // POST api/invoice
         [HttpPost]
-        public async Task <IActionResult> Post([FromBody]Invoice invoice)
+        public async Task<IActionResult> Post([FromBody]string order, [FromBody]Invoice invoice)
         {
+            var token = Request.Headers["authorization"][1];
+            invoice.OrderRef = Request.Form["OrderRef"];
+            invoice.OrderTotal = Request.Form["OrderTotal"];
+            invoice.CustomerId = Request.Form["CustoRef"];
             await _invoiceRepository.AddInvoice(invoice);
-            return CreatedAtAction("Get", new { id = invoice.Id }, invoice);
+            return CreatedAtAction("Get", new { id = invoice.InvoiceId }, invoice);
 
         }
 
-    // PUT api/invoice/5
-    [HttpPut("{Id}")]
+        // PUT api/invoice/5
+        [HttpPut("{Id}")]
         public async Task<string> Put(string id, [FromBody] Invoice invoice)
         {
             if (string.IsNullOrEmpty(id))
