@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
+using System;
+using System.Collections.Generic;
 
 namespace Invoice_Service.Models
-{   
+{
     public class Invoice
     {
         [BsonId]
@@ -22,5 +20,15 @@ namespace Invoice_Service.Models
         public string CustomerAddress { get; set; }
         public string InvoiceTotal { get; set; }
         public Boolean InvoicePending { get; set; }
-    }
+
+
+        public Dictionary<string, string> getReady()
+        {
+            return new Dictionary<string, string>
+            {
+                 { "messageTo", CustomerId },
+                     { "content", "New Invoice pending " + InvoiceTotal}
+                };
+        }
+}
 }

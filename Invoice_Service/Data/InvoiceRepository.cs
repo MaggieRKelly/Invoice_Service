@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Invoice_Service.Interfaces;
+using Invoice_Service.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using MongoDB.Bson;
-using Invoice_Service.Interfaces;
-using Invoice_Service.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 namespace Invoice_Service.Data
