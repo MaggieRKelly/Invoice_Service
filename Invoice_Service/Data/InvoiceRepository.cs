@@ -50,6 +50,22 @@ namespace Invoice_Service.Data
             }
         }
 
+        public async Task<List<Invoice>> GetInvoiceByCustomer(string custId)
+        {
+            var inv = Builders<Invoice>.Filter.Eq("CustomerId", custId);
+
+            try
+            {
+                return await _context.Invoices
+                                .Find(inv).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                // log or manage the exception
+                throw ex;
+            }
+        }
+
         public async Task AddInvoice(Invoice invoice)
         {
             try
