@@ -32,28 +32,28 @@ namespace Invoice_Service
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
-            services.AddAuthentication(options => {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
-            })
-    .AddJwtBearer("JwtBearer", jwtBearerOptions =>
-    {
-        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secret goes here")),
+    //        services.AddAuthentication(options => {
+    //            options.DefaultAuthenticateScheme = "JwtBearer";
+    //            options.DefaultChallengeScheme = "JwtBearer";
+    //        })
+    //.AddJwtBearer("JwtBearer", jwtBearerOptions =>
+    //{
+    //    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+    //    {
+    //        ValidateIssuerSigningKey = true,
+    //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secret goes here")),
 
-            ValidateIssuer = true,
-            ValidIssuer = "Invoice_Service",
+    //        ValidateIssuer = true,
+    //        ValidIssuer = "Invoice_Service",
 
-            ValidateAudience = true,
-            ValidAudience = "The name of the audience",
+    //        ValidateAudience = true,
+    //        ValidAudience = "The name of the audience",
 
-            ValidateLifetime = true, //validate the expiration and not before values in the token
+    //        ValidateLifetime = true, //validate the expiration and not before values in the token
 
-            ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
-        };
-    });
+    //        ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+    //    };
+    //});
 
 
             services.AddMvc();

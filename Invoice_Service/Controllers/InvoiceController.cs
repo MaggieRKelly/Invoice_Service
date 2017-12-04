@@ -2,6 +2,7 @@
 using Invoice_Service.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Invoice_Service.Controllers
@@ -17,22 +18,38 @@ namespace Invoice_Service.Controllers
             _invoiceRepository = invoiceRepository;
 
         }
+
+        // GET api/invoice
         [HttpGet]
         public Task<IEnumerable<Invoice>> Get()
         {
-            return GetInvoice();
+            return GetAllInvoices();
         }
 
-        private async Task<IEnumerable<Invoice>> GetInvoice()
+        private async Task<IEnumerable<Invoice>> GetAllInvoices()
         {
             var inv = _invoiceRepository.GetAllinvoices();
             return await _invoiceRepository.GetAllinvoices();
         }
 
-        // GET api/invoices/5
-        [HttpGet("{Id}")]
-        public Task<Invoice> Get(string id)
+        // GET api/invoice?CustomerId=5
+        [HttpGet("{CustomerId}")]
+        public Task<List<Invoice>> GetInvoiceByCustomer(string custId)
         {
+            return GetInvoicebyCustomer(custId);
+        }
+
+        private async Task<List<Invoice>> GetInvoicebyCustomer(string custId)
+        {
+
+            return await _invoiceRepository.GetInvoiceByCustomer(custId);
+        }
+
+        // GET api/invoice/5
+        [HttpGet("{Id}")]
+        public Task<Invoice> GetById(string id)
+        {
+            //if()
             return GetInvoiceById(id);
         }
 
@@ -43,15 +60,10 @@ namespace Invoice_Service.Controllers
 
         // POST api/invoice
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]string order, [FromBody]Invoice invoice)
+        public async Task<IActionResult> Post([FromBody] Invoice order)
         {
-            var token = Request.Headers["authorization"][1];
-            invoice.OrderRef = Request.Form["OrderRef"];
-            invoice.OrderTotal = Request.Form["OrderTotal"];
-            invoice.CustomerId = Request.Form["CustoRef"];
-            await _invoiceRepository.AddInvoice(invoice);
-            return CreatedAtAction("Get", new { id = invoice.InvoiceId }, invoice);
-
+            await _invoiceRepository.AddInvoice(order);
+            return CreatedAtAction("Get", new { id = order.OrderRef }, order);
         }
 
         // PUT api/invoice/5
