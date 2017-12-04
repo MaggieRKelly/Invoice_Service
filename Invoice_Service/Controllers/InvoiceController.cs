@@ -2,7 +2,7 @@
 using Invoice_Service.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Invoice_Service.Controllers
@@ -11,6 +11,7 @@ namespace Invoice_Service.Controllers
     [Route("api/[controller]")]
     public class InvoiceController : Controller
     {
+        private static readonly HttpClient client = new HttpClient();
         private readonly IInvoiceRepository _invoiceRepository;
 
         public InvoiceController(IInvoiceRepository invoiceRepository)
@@ -60,10 +61,16 @@ namespace Invoice_Service.Controllers
 
         // POST api/invoice
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Invoice order)
-        {
+        public async Task<HttpResponseMessage> Post([FromBody] Invoice order)
+        { 
             await _invoiceRepository.AddInvoice(order);
-            return CreatedAtAction("Get", new { id = order.OrderRef }, order);
+            var t = CreatedAtAction("Get", new { id = order.OrderRef }, order);
+            Invoice x = (Invoice) t.Value;
+            var r = x.getReady();
+            
+
+            var content = new FormUrlEncodedContent(r);
+            return await client.PostAsync("https://enigmatic-cove-40131.herokuapp.com/message/", content);
         }
 
         // PUT api/invoice/5
