@@ -16,17 +16,18 @@ namespace Invoice_Service.Models
         public string OrderDate { get; set; }
         public string OrderTotal { get; set; }
         public string CustomerId { get; set; }
+        public string CustoRef { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         public string InvoiceTotal { get; set; }
-        public Boolean InvoicePending { get; set; }
+        public Boolean InvoicePending { get; set; } = true;
 
 
         public Dictionary<string, string> getReady()
         {
             return new Dictionary<string, string>
             {
-                 { "messageTo", CustomerId },
+                 { "messageTo", CustoRef },
                      { "content", "New Invoice pending " + InvoiceTotal}
                 };
         }
