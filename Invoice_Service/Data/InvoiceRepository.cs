@@ -50,7 +50,7 @@ namespace Invoice_Service.Data
 
         public async Task<List<Invoice>> GetInvoiceByCustomer(string custId)
         {
-            var inv = Builders<Invoice>.Filter.Eq("CustomerId", custId);
+            var inv = Builders<Invoice>.Filter.Eq("CustoRef", custId);
 
             try
             {
