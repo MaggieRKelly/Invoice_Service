@@ -13,6 +13,8 @@ namespace Invoice_Service.Data
     {
         private readonly InvoiceContext _context = null;
 
+        public object Invoices => throw new NotImplementedException();
+
         public InvoiceRepository(IOptions<Settings> settings)
         {
             _context = new InvoiceContext(settings);
@@ -31,6 +33,7 @@ namespace Invoice_Service.Data
                 throw ex;
             }
         }
+
         public async Task<Invoice> GetInvoice(string id)
         {
             var inv = Builders<Invoice>.Filter.Eq("Id", id);
@@ -50,7 +53,7 @@ namespace Invoice_Service.Data
 
         public async Task<List<Invoice>> GetInvoiceByCustomer(string custId)
         {
-            var inv = Builders<Invoice>.Filter.Eq("CustoRef", custId);
+            var inv = Builders<Invoice>.Filter.Eq("customerId", custId);
 
             try
             {
