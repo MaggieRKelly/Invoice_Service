@@ -25,10 +25,7 @@ namespace Invoice_Service.Controllers
         public Task<IEnumerable<Invoice>> Get()
         {
             return GetAllInvoices();
-        }/// <summary>
-        /// //////
-        /// </summary>
-        /// <returns></returns>
+        }
 
         private async Task<IEnumerable<Invoice>> GetAllInvoices()
         {
