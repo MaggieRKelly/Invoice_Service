@@ -1,4 +1,3 @@
-
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -9,112 +8,86 @@ using FluentAssertions;
 using Moq;
 using Invoice_Service.Controllers;
 using Invoice_Service.Data;
+using Invoice_Service.Models;
+using Microsoft.Extensions.Options;
 
 namespace XUnitTestInvoiceService
 {
     public class UnitTest1
-    { 
-    [Fact]
+    {
+        private IOptions<Settings> inv;
+
+        [Fact]
     public async Task Invoice_Get_All()
     {
         // Arrange
-        var controller = new InvoiceController(new InvoiceRepository(n));
+        var controller = new InvoiceController(new InvoiceRepository(this.inv));
 
         // Act
         var result = await controller.Get();
 
         // Assert
         var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-        var persons = okResult.Value.Should().BeAssignableTo<IEnumerable<Person>>().Subject;
+        var inv = okResult.Value.Should().BeAssignableTo<IEnumerable<Invoice>>().Subject;
 
-        persons.Count().Should().Be(50);
+        inv.Count().Should().Be(50);
     }
 
     [Fact]
     public async Task Values_Get_Specific()
     {
         // Arrange
-        var controller = new PersonsController(new PersonService());
+        var controller = new InvoiceController(new InvoiceRepository(inv));
 
         // Act
-        var result = await controller.Get(16);
+        var result = await controller.Get();
 
         // Assert
         var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-        var person = okResult.Value.Should().BeAssignableTo<Person>().Subject;
-        person.Id.Should().Be(16);
+        var invoice = okResult.Value.Should().BeAssignableTo<Invoice>().Subject;
+        invoice.Id.Should().Be("");
     }
 
     [Fact]
-    public async Task Persons_Add()
+    public async Task Invoice_Add()
     {
         // Arrange
-        var controller = new PersonsController(new PersonService());
-        var newPerson = new Person
+        var controller = new InvoiceController(new InvoiceRepository(inv));
+        var newInvoice = new Invoice
         {
-            FirstName = "John",
-            LastName = "Doe",
-            Age = 50,
-            Title = "FooBar",
-            Email = "john.doe@foo.bar"
+            CustomerName = "John",
+            CustomerLastName = "Doe",
+            CustoRef = "john.doe@foo.bar",
+            OrderRef = "Ord1",
+            OrderTotal = "£50.00",
+            InvoicePending = true
         };
 
         // Act
-        var result = await controller.Post(newPerson);
+        var result = await controller.Post(newInvoice);
 
         // Assert
         var okResult = result.Should().BeOfType<CreatedAtActionResult>().Subject;
-        var person = okResult.Value.Should().BeAssignableTo<Person>().Subject;
-        person.Id.Should().Be(51);
+        var invoice = okResult.Value.Should().BeAssignableTo<Invoice>().Subject;
+        invoice.Id.Should().Be("");
     }
 
     [Fact]
-    public async Task Persons_Change()
+    public async Task Invoice_Change()
     {
         // Arrange
-        var service = new PersonService();
-        var controller = new PersonsController(service);
-        var newPerson = new Person
+        var service = new InvoiceRepository(inv);
+        var controller = new InvoiceController(service);
+        var newInvoice = new Invoice
         {
-            FirstName = "John",
-            LastName = "Doe",
-            Age = 50,
-            Title = "FooBar",
-            Email = "john.doe@foo.bar"
+            CustomerName = "John",
+            CustomerLastName = "Doe",
+            CustomerId = "Cust50",
+            CustoRef = "Custo50@test.com",
+            OrderTotal = "£300.99",
+            OrderDate = "05/12/17"
         };
 
-        // Act
-        var result = await controller.Put(20, newPerson);
-
-        // Assert
-        var okResult = result.Should().BeOfType<NoContentResult>().Subject;
-
-        var person = service.Get(20);
-        person.Id.Should().Be(20);
-        person.FirstName.Should().Be("John");
-        person.LastName.Should().Be("Doe");
-        person.Age.Should().Be(50);
-        person.Title.Should().Be("FooBar");
-        person.Email.Should().Be("john.doe@foo.bar");
-    }
-
-    [Fact]
-    public async Task Persons_Delete()
-    {
-        // Arrange
-        var service = new PersonService();
-        var controller = new PersonsController(service);
-
-        // Act
-        var result = await controller.Delete(20);
-
-        // Assert
-        var okResult = result.Should().BeOfType<NoContentResult>().Subject;
-
-        // should throw an eception, 
-        // because the person with id==20 doesn't exist enymore
-        AssertionExtensions.ShouldThrow<InvalidOperationException>(
-          () => service.Get(20));
     }
 }
 }
