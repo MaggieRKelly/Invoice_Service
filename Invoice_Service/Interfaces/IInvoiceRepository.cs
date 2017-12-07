@@ -7,6 +7,8 @@ namespace Invoice_Service.Interfaces
 {
     public interface IInvoiceRepository
     {
+        object Invoices { get; }
+
         Task<IEnumerable<Invoice>> GetAllinvoices();
         Task<Invoice> GetInvoice(string id);
         Task<List<Invoice>> GetInvoiceByCustomer(string custId);

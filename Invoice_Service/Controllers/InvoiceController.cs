@@ -34,7 +34,7 @@ namespace Invoice_Service.Controllers
         }
 
         // GET api/invoice?CustomerId=5
-        [HttpGet("{CustomerId}")]
+        [HttpGet("{customerId}")]
         public Task<List<Invoice>> GetInvoiceByCustomer(string custId)
         {
             return GetInvoicebyCustomer(custId);
@@ -50,7 +50,7 @@ namespace Invoice_Service.Controllers
         [HttpGet("{Id}")]
         public Task<Invoice> GetById(string id)
         {
-            //if()
+           
             return GetInvoiceById(id);
         }
 
@@ -58,6 +58,7 @@ namespace Invoice_Service.Controllers
         {
             return await _invoiceRepository.GetInvoice(id) ?? new Invoice();
         }
+
 
         // POST api/invoice
         [HttpPost]
