@@ -11,7 +11,7 @@ namespace Invoice_Service.Interfaces
 
         Task<IEnumerable<Invoice>> GetAllinvoices();
         Task<Invoice> GetInvoice(string id);
-        Task<List<Invoice>> GetInvoiceByCustomer(string custId);
+        //Task<List<Invoice>> GetInvoiceByCustomerId(string custId);
         // add new invoice document
         Task AddInvoice(Invoice invoice);
         // remove a single document

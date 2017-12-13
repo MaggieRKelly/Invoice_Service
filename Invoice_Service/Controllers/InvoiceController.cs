@@ -33,32 +33,36 @@ namespace Invoice_Service.Controllers
             return await _invoiceRepository.GetAllinvoices();
         }
 
-        // GET api/invoice?CustomerId=5
-        [HttpGet("{customerId}")]
-        public Task<List<Invoice>> GetInvoiceByCustomer(string custId)
-        {
-            return GetInvoicebyCustomer(custId);
-        }
-
-        private async Task<List<Invoice>> GetInvoicebyCustomer(string custId)
-        {
-
-            return await _invoiceRepository.GetInvoiceByCustomer(custId);
-        }
-
         // GET api/invoice/5
         [HttpGet("{Id}")]
         public Task<Invoice> GetById(string id)
         {
-           
+
             return GetInvoiceById(id);
         }
 
         private async Task<Invoice> GetInvoiceById(string id)
         {
+            var inv = _invoiceRepository.GetInvoice(id);
             return await _invoiceRepository.GetInvoice(id) ?? new Invoice();
         }
 
+
+        //// GET api/invoice?CustomerId=5
+        //[HttpGet("{CustomerId}")]
+        //public Task<List<Invoice>> GetInvoiceByCustomer(string custId)
+        //{
+          
+        //    return GetInvoicebyCustomerId(custId);
+        //}
+
+        //private async Task<List<Invoice>> GetInvoicebyCustomerId(string custId)
+        //{
+        //    var inv = _invoiceRepository.GetInvoiceByCustomerId(custId);
+        //    return await _invoiceRepository.GetInvoiceByCustomerId(custId);
+        //}
+
+      
 
         // POST api/invoice
         [HttpPost]
