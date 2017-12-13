@@ -22,9 +22,11 @@ namespace Invoice_Service.Controllers
 
         // GET api/invoice
         [HttpGet]
-        public Task<IEnumerable<Invoice>> Get()
+        public ActionResult Get()
         {
-            return GetAllInvoices();
+            var invoices = GetAllInvoices().Result;
+            return View(invoices);
+         
         }
 
         private async Task<IEnumerable<Invoice>> GetAllInvoices()
@@ -35,10 +37,11 @@ namespace Invoice_Service.Controllers
 
         // GET api/invoice/5
         [HttpGet("{Id}")]
-        public Task<Invoice> GetById(string id)
+        public ActionResult GetById(string id)
         {
-
-            return GetInvoiceById(id);
+            var invoices = GetInvoiceById(id).Result;
+            return View(invoices);
+            //return GetInvoiceById(id);
         }
 
         private async Task<Invoice> GetInvoiceById(string id)
@@ -47,12 +50,24 @@ namespace Invoice_Service.Controllers
             return await _invoiceRepository.GetInvoice(id) ?? new Invoice();
         }
 
+        // GET api/invoice/InvoicePending?=5
+        [HttpGet("{InvoicePending}")]
+        public Task<List<Invoice>> GetInvoiceByPending(bool pending)
+        {
+            return GetInvoicebyPendingId(pending);
+        }
+
+        private async Task<List<Invoice>> GetInvoicebyPendingId(bool pending)
+        {
+            var inv = _invoiceRepository.GetInvoiceByPending(pending);
+            return await _invoiceRepository.GetInvoiceByPending(pending);
+        }
 
         //// GET api/invoice?CustomerId=5
         //[HttpGet("{CustomerId}")]
         //public Task<List<Invoice>> GetInvoiceByCustomer(string custId)
         //{
-          
+
         //    return GetInvoicebyCustomerId(custId);
         //}
 
@@ -62,7 +77,7 @@ namespace Invoice_Service.Controllers
         //    return await _invoiceRepository.GetInvoiceByCustomerId(custId);
         //}
 
-      
+
 
         // POST api/invoice
         [HttpPost]

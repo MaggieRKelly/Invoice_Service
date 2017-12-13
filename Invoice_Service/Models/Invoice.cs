@@ -20,7 +20,7 @@ namespace Invoice_Service.Models
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         public string InvoiceTotal { get; set; }
-        public Boolean InvoicePending { get; set; } = true;
+        public bool InvoicePending { get; set; }
         public string CustomerLastName { get; set; }
 
         public Dictionary<string, string> getReady()

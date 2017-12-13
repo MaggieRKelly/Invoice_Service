@@ -51,6 +51,22 @@ namespace Invoice_Service.Data
             }
         }
 
+        public async Task<List<Invoice>> GetInvoiceByPending(bool pending)
+        {
+            var inv = Builders<Invoice>.Filter.Eq("InvoicePending", pending);
+
+            try
+            {
+                return await _context.Invoices
+                                .Find(inv).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                // log or manage the exception
+                throw ex;
+            }
+        }
+
         //public async Task<List<Invoice>> GetInvoiceByCustomerId(string custId)
         //{
         //    var inv = Builders<Invoice>.Filter.Eq("CustomerId", custId);
