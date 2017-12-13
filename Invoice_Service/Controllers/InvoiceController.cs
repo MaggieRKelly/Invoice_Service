@@ -37,11 +37,10 @@ namespace Invoice_Service.Controllers
 
         // GET api/invoice/5
         [HttpGet("{Id}")]
-        public ActionResult GetById(string id)
+        public Task<Invoice> GetById(string id)
         {
-            var invoices = GetInvoiceById(id).Result;
-            return View(invoices);
-            //return GetInvoiceById(id);
+
+            return GetInvoiceById(id);
         }
 
         private async Task<Invoice> GetInvoiceById(string id)
@@ -54,6 +53,8 @@ namespace Invoice_Service.Controllers
         [HttpGet("{InvoicePending}")]
         public Task<List<Invoice>> GetInvoiceByPending(bool pending)
         {
+
+
             return GetInvoicebyPendingId(pending);
         }
 
