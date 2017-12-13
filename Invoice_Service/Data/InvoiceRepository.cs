@@ -36,7 +36,7 @@ namespace Invoice_Service.Data
 
         public async Task<Invoice> GetInvoice(string id)
         {
-            var inv = Builders<Invoice>.Filter.Eq("Id", id);
+            var inv = Builders<Invoice>.Filter.Eq("InvoiceId", id);
 
             try
             {
@@ -51,21 +51,21 @@ namespace Invoice_Service.Data
             }
         }
 
-        public async Task<List<Invoice>> GetInvoiceByCustomer(string custId)
-        {
-            var inv = Builders<Invoice>.Filter.Eq("customerId", custId);
+        //public async Task<List<Invoice>> GetInvoiceByCustomerId(string custId)
+        //{
+        //    var inv = Builders<Invoice>.Filter.Eq("CustomerId", custId);
 
-            try
-            {
-                return await _context.Invoices
-                                .Find(inv).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                // log or manage the exception
-                throw ex;
-            }
-        }
+        //    try
+        //    {
+        //        return await _context.Invoices
+        //                        .Find(inv).ToListAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // log or manage the exception
+        //        throw ex;
+        //    }
+        //}
 
         public async Task AddInvoice(Invoice invoice)
         {
