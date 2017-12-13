@@ -18,37 +18,37 @@ namespace XUnitTestInvoiceService
         private IOptions<Settings> inv;
 
         [Fact]
-    public async Task Invoice_Get_All()
-    {
-        // Arrange
-        var controller = new InvoiceController(new InvoiceRepository(this.inv));
+        public void Invoice_Get_All()
+        {
+            // Arrange
+            var controller = new InvoiceController(new InvoiceRepository(this.inv));
 
-        // Act
-        var result = await controller.Get();
+            // Act
+            var result = controller.Get();
 
-        // Assert
-        var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-        var inv = okResult.Value.Should().BeAssignableTo<IEnumerable<Invoice>>().Subject;
+            // Assert
+            var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
+            var inv = okResult.Value.Should().BeAssignableTo<IEnumerable<Invoice>>().Subject;
 
-        inv.Count().Should().Be(50);
-    }
+            inv.Count().Should().Be(50);
+        }
 
-    [Fact]
-    public async Task Values_Get_Specific()
-    {
-        // Arrange
-        var controller = new InvoiceController(new InvoiceRepository(inv));
+        [Fact]
+        public void Values_Get_Specific()
+        {
+            // Arrange
+            var controller = new InvoiceController(new InvoiceRepository(inv));
 
-        // Act
-        var result = await controller.Get();
+            // Act
+            var result = controller.Get();
 
-        // Assert
-        var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-        var invoice = okResult.Value.Should().BeAssignableTo<Invoice>().Subject;
-        invoice.Id.Should().Be("");
-    }
+            // Assert
+            var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
+            var invoice = okResult.Value.Should().BeAssignableTo<Invoice>().Subject;
+            invoice.Id.Should().Be("");
+        }
 
-    [Fact]
+        [Fact]
     public async Task Invoice_Add()
     {
         // Arrange
@@ -72,22 +72,22 @@ namespace XUnitTestInvoiceService
         invoice.Id.Should().Be("");
     }
 
-    [Fact]
-    public async Task Invoice_Change()
-    {
-        // Arrange
-        var service = new InvoiceRepository(inv);
-        var controller = new InvoiceController(service);
-        var newInvoice = new Invoice
+        [Fact]
+        public void Invoice_Change()
         {
-            CustomerName = "John",
-            CustomerLastName = "Doe",
-            CustomerId = "Cust50",
-            CustoRef = "Custo50@test.com",
-            OrderTotal = "£300.99",
-            OrderDate = "05/12/17"
-        };
+            // Arrange
+            var service = new InvoiceRepository(inv);
+            var controller = new InvoiceController(service);
+            var newInvoice = new Invoice
+            {
+                CustomerName = "John",
+                CustomerLastName = "Doe",
+                CustomerId = "Cust50",
+                CustoRef = "Custo50@test.com",
+                OrderTotal = "£300.99",
+                OrderDate = "05/12/17"
+            };
 
+        }
     }
-}
 }
